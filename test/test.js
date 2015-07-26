@@ -41,4 +41,13 @@ describe("vacuumlabs-destructuring", function () {
 		var expected = fs.readFileSync("./test/fixtures/book-example/expected.js").toString();
 		assert.equal(actual, expected);
 	});
+
+	it("should generate correct multiple destructurings", function () {
+		var actual = babel.transformFileSync("./test/fixtures/multiple/actual.js", {
+			plugins: [require('../src/index')],
+			blacklist: ['es6.destructuring']
+		}).code;
+		var expected = fs.readFileSync("./test/fixtures/multiple/expected.js").toString();
+		assert.equal(actual, expected);
+	});
 });
