@@ -210,7 +210,22 @@ module.exports = function (babel) {
 				if (t.isSpreadProperty(prop)) {
 					this.pushObjectSpread(pattern, objRef, prop, i);
 				} else {
-					this.pushObjectProperty(prop, objRef);
+
+					if (objRef.object) {
+						var SymbolForGet2 = t.callExpression(
+							t.identifier("Symbol.for"),
+							[t.literal("get")]);
+						var objGetRef2 = t.memberExpression(objRef.object, SymbolForGet2, /* computed: */ true);
+						var fullObjRef2 = t.conditionalExpression(
+							objGetRef2,
+							t.callExpression(objGetRef2, [t.isIdentifier(objRef.property) ? t.literal(objRef.property.name) : objRef.property]),
+							objRef
+						);
+
+						this.pushObjectProperty(prop, fullObjRef2);
+					} else {
+						this.pushObjectProperty(prop, objRef);
+					}
 				}
 			}
 		}
