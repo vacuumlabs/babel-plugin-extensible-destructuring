@@ -15,7 +15,7 @@ describe("vacuumlabs-destructuring", function () {
 		assert.equal(actual, expected);
 	});
 
-	it("should generate correct custom destructuring", function () {
+	it("should generate correct custom object destructuring with string keys", function () {
 		var actual = babel.transformFileSync("./test/fixtures/object-custom/actual.js", {
 			plugins: [require('../src/index')],
 			blacklist: ['es6.destructuring']
@@ -24,7 +24,7 @@ describe("vacuumlabs-destructuring", function () {
 		assert.equal(actual, expected);
 	});
 
-	it("should generate correct destructuring with non-string keys", function () {
+	it("should generate correct custom object destructuring with non-string keys", function () {
 		var actual = babel.transformFileSync("./test/fixtures/object-non-string-key/actual.js", {
 			plugins: [require('../src/index')],
 			blacklist: ['es6.destructuring']
