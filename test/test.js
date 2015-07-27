@@ -4,70 +4,25 @@ var fs = require("fs");
 var assert = require("assert");
 var babel = require("babel-core");
 
+function test(name, dir, externalHelpers) {
+	it("should compile " + name, function () {
+		var actual = babel.transformFileSync("./test/fixtures/" + dir + "/actual.js", {
+			plugins: [require('../src/index')],
+			blacklist: ['es6.destructuring'],
+			externalHelpers: externalHelpers
+		}).code;
+		var expected = fs.readFileSync("./test/fixtures/" + dir + "/expected.js", "utf8").toString();
+		assert.equal(actual, expected);
+	});
+}
+
 describe("extensible-destructuring", function () {
 
-	it("should generate correct basic object destructuring", function () {
-		var actual = babel.transformFileSync("./test/fixtures/object-basic/actual.js", {
-			plugins: [require('../src/index')],
-			blacklist: ['es6.destructuring']
-		}).code;
-		var expected = fs.readFileSync("./test/fixtures/object-basic/expected.js").toString();
-		assert.equal(actual, expected);
-	});
-
-	it("should generate correct custom object destructuring with string keys", function () {
-		var actual = babel.transformFileSync("./test/fixtures/object-custom/actual.js", {
-			plugins: [require('../src/index')],
-			blacklist: ['es6.destructuring']
-		}).code;
-		var expected = fs.readFileSync("./test/fixtures/object-custom/expected.js").toString();
-		assert.equal(actual, expected);
-	});
-
-	it("should generate correct custom object destructuring with non-string keys", function () {
-		var actual = babel.transformFileSync("./test/fixtures/object-non-string-key/actual.js", {
-			plugins: [require('../src/index')],
-			blacklist: ['es6.destructuring']
-		}).code;
-		var expected = fs.readFileSync("./test/fixtures/object-non-string-key/expected.js").toString();
-		assert.equal(actual, expected);
-	});
-
-	it("should generate correct custom object destructuring of the book example", function () {
-		var actual = babel.transformFileSync("./test/fixtures/book-example/actual.js", {
-			plugins: [require('../src/index')],
-			blacklist: ['es6.destructuring']
-		}).code;
-		var expected = fs.readFileSync("./test/fixtures/book-example/expected.js").toString();
-		assert.equal(actual, expected);
-	});
-
-	it("should generate correct multiple destructurings", function () {
-		var actual = babel.transformFileSync("./test/fixtures/multiple/actual.js", {
-			plugins: [require('../src/index')],
-			blacklist: ['es6.destructuring']
-		}).code;
-		var expected = fs.readFileSync("./test/fixtures/multiple/expected.js").toString();
-		assert.equal(actual, expected);
-	});
-
-	it("should generate correct destructuring in for-in", function () {
-		var actual = babel.transformFileSync("./test/fixtures/for-in/actual.js", {
-			plugins: [require('../src/index')],
-			blacklist: ['es6.destructuring'],
-			externalHelpers: true
-		}).code;
-		var expected = fs.readFileSync("./test/fixtures/for-in/expected.js").toString();
-		assert.equal(actual, expected);
-	});
-
-	it("should generate correct destructuring of parameters", function () {
-		var actual = babel.transformFileSync("./test/fixtures/parameters/actual.js", {
-			plugins: [require('../src/index')],
-			blacklist: ['es6.destructuring'],
-			externalHelpers: true
-		}).code;
-		var expected = fs.readFileSync("./test/fixtures/parameters/expected.js").toString();
-		assert.equal(actual, expected);
-	});
+	test("basic object destructuring", "object-basic", false);
+	test("custom object destructuring with string keys", "object-custom", false);
+	test("custom object destructuring with non-string keys", "object-non-string-key", false);
+	test("custom object destructuring of the book example", "book-example", false);
+	test("multiple destructurings", "multiple", false);
+	test("destructuring in for-in", "for-in", true);
+	test("destructuring of parameters", "parameters", true);
 });
