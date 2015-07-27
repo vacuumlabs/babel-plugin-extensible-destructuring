@@ -8,7 +8,7 @@ import { transformFileSync } from 'babel-core'
 function test(name, dir, externalHelpers) {
 	it("should compile " + name, function () {
 		var actual = transformFileSync("./test/fixtures/" + dir + "/actual.js", {
-			plugins: [require('../src/index')],
+			plugins: [Plugin],
 			blacklist: ['es6.destructuring'],
 			externalHelpers: externalHelpers
 		}).code;
