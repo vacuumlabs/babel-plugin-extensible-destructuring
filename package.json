@@ -1,12 +1,24 @@
 {
   "name": "extensible-destructuring",
-  "repository": "vacuumlabs/babel-destructuring",
+  "version": "1.0",
+  "description": "Babel plugin that enables extensible destructuring as per https://github.com/vacuumlabs/es-proposals",
+  "author": "Markéta Lisová <themarketka@gmail.com>",
+  "repository": "vacuumlabs/babel-plugin-extensible-destructuring",
+  "keywords": [
+    "babel-plugin",
+    "destructuring"
+  ],
+  "main": "src/index.js",
+  "files": [
+    "src"
+  ],
   "license": "BSD-2",
   "scripts": {
     "test": "mocha --compilers js:babel/register"
   },
   "devDependencies": {
-    "babel": "^5.8.5"
+    "babel": "^5.8.5",
+    "mocha": "^2.2.5"
   },
   "peerDependencies": {
     "babel-core": ">=5.6.0"
