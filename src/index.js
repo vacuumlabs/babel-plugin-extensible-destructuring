@@ -87,7 +87,7 @@ module.exports = function (babel) {
 		}
 
 		toArray(node, count) {
-			if (this.file.isLoose("vacuumlabs-destructuring") || (t.isIdentifier(node) && this.arrays[node.name])) {
+			if (this.file.isLoose("extensible-destructuring") || (t.isIdentifier(node) && this.arrays[node.name])) {
 				return node;
 			} else {
 				return this.scope.toArray(node, count);
@@ -351,7 +351,7 @@ module.exports = function (babel) {
 		}
 	}
 
-	return new Plugin("vacuumlabs-destructuring", {
+	return new Plugin("extensible-destructuring", {
 		metadata: {
 			group: "builtin-advanced"
 		},

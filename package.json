@@ -1,5 +1,5 @@
 {
-  "name": "vacuumlabs-destructuring",
+  "name": "extensible-destructuring",
   "repository": "vacuumlabs/babel-destructuring",
   "license": "BSD-2",
   "scripts": {

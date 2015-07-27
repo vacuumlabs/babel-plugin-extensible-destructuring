@@ -8,7 +8,7 @@ Plugin for extensible destructuring in Babel
 ```javascript
 var babel = require("babel-core");
 babel.transform("code", {
-    plugins: ['vacuumlabs-destructuring'],
+    plugins: ['extensible-destructuring'],
     blacklist: ['es6.destructuring']
 })
 ```

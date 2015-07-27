@@ -4,7 +4,7 @@ var fs = require("fs");
 var assert = require("assert");
 var babel = require("babel-core");
 
-describe("vacuumlabs-destructuring", function () {
+describe("extensible-destructuring", function () {
 
 	it("should generate correct basic object destructuring", function () {
 		var actual = babel.transformFileSync("./test/fixtures/object-basic/actual.js", {
