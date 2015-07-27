@@ -7,12 +7,12 @@ import { transformFileSync } from 'babel-core'
 
 function test(name, dir, externalHelpers) {
 	it(`should compile ${ name }`, () => {
-		var actual = transformFileSync(`./test/fixtures/${ dir }/actual.js`, {
+		const actual = transformFileSync(`./test/fixtures/${ dir }/actual.js`, {
 			plugins: [Plugin],
 			blacklist: ['es6.destructuring'],
 			externalHelpers: externalHelpers
 		}).code;
-		var expected = fs.readFileSync(`./test/fixtures/${ dir }/expected.js`, "utf8").toString();
+		const expected = fs.readFileSync(`./test/fixtures/${ dir }/expected.js`, "utf8").toString();
 		assert.equal(actual, expected);
 	});
 }
