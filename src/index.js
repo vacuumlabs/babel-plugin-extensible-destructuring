@@ -36,6 +36,10 @@ module.exports = function (babel) {
 		}
 	};
 
+	const SymbolForGet = t.callExpression(
+			t.identifier("Symbol.for"),
+			[t.literal("get")]);
+
 	class DestructuringTransformer {
 		constructor(opts) {
 			this.blockHoist = opts.blockHoist;
@@ -158,9 +162,6 @@ module.exports = function (babel) {
 			var pattern = prop.value;
 			var objRef = t.memberExpression(propRef, prop.key, prop.computed);
 
-			var SymbolForGet = t.callExpression(
-				t.identifier("Symbol.for"),
-				[t.literal("get")]);
 			var objGetRef = t.memberExpression(propRef, SymbolForGet, /* computed: */ true);
 			var fullObjRef = t.conditionalExpression(
 				objGetRef,
@@ -191,17 +192,14 @@ module.exports = function (babel) {
 			if (pattern.properties.length > 1 && t.isMemberExpression(objRef)) {
 				var temp = this.scope.generateUidIdentifierBasedOnNode(objRef, this.file);
 
-				var SymbolForGet = t.callExpression(
-					t.identifier("Symbol.for"),
-					[t.literal("get")]);
-				var objGetRef = t.memberExpression(objRef.object, SymbolForGet, /* computed: */ true);
-				var fullObjRef = t.conditionalExpression(
-					objGetRef,
-					t.callExpression(objGetRef, [t.isIdentifier(objRef.property) ? t.literal(objRef.property.name) : objRef.property]),
+				var tempObjGetRef = t.memberExpression(objRef.object, SymbolForGet, /* computed: */ true);
+				var tempFullObjRef = t.conditionalExpression(
+					tempObjGetRef,
+					t.callExpression(tempObjGetRef, [t.isIdentifier(objRef.property) ? t.literal(objRef.property.name) : objRef.property]),
 					objRef
 				);
 
-				this.nodes.push(this.buildVariableDeclaration(temp, fullObjRef));
+				this.nodes.push(this.buildVariableDeclaration(temp, tempFullObjRef));
 				objRef = temp;
 			}
 
@@ -212,17 +210,14 @@ module.exports = function (babel) {
 				} else {
 
 					if (objRef.object) {
-						var SymbolForGet2 = t.callExpression(
-							t.identifier("Symbol.for"),
-							[t.literal("get")]);
-						var objGetRef2 = t.memberExpression(objRef.object, SymbolForGet2, /* computed: */ true);
-						var fullObjRef2 = t.conditionalExpression(
-							objGetRef2,
-							t.callExpression(objGetRef2, [t.isIdentifier(objRef.property) ? t.literal(objRef.property.name) : objRef.property]),
+						var objGetRef = t.memberExpression(objRef.object, SymbolForGet, /* computed: */ true);
+						var fullObjRef = t.conditionalExpression(
+							objGetRef,
+							t.callExpression(objGetRef, [t.isIdentifier(objRef.property) ? t.literal(objRef.property.name) : objRef.property]),
 							objRef
 						);
 
-						this.pushObjectProperty(prop, fullObjRef2);
+						this.pushObjectProperty(prop, fullObjRef);
 					} else {
 						this.pushObjectProperty(prop, objRef);
 					}
