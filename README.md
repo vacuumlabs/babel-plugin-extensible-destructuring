@@ -42,6 +42,25 @@ babel.transform("code", {
 
 ## Example
 
+This plugin was created to leverage [Immutable.js](https://facebook.github.io/immutable-js/) data structures while not loosing succint destructuring syntax.
+
+Immutable.js currently does not provide `@@get` symbol, so we need to patch it:
+
+```javascript
+// main.js, first file loaded
+import {Iterable} from 'immutable';
+Iterable.prototype[Symbol.for('get')] = function(value) {return this.get(value); };
+```
+
+And then we can use anywhere
+```javascript
+import {fromJS} from 'immutable';
+const map = fromJS({author: {name: {first: "John", last: "Doe"}, birthdate: "10-10-2010"}});
+const {author: {name: {first, last}, birthdate}} = map;
+```
+
+## Under The Hood
+
 The plugin will compile the following code:
 
 ```javascript
