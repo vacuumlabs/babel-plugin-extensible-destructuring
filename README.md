@@ -18,14 +18,14 @@ The `extensible-destructuring` plugin replaces babel's `es6.destructuring` trans
 Run:
 
 ```sh
-babel --plugins extensible-destructuring --blacklist es6.destructuring script.js
+babel --plugins extensible-destructuring:after --blacklist es6.destructuring script.js
 ```
 
 Or add the plugin to your `.babelrc` configuration:
 
 ```json
 {
-  "plugins": [ "extensible-destructuring" ],
+  "plugins": [ "extensible-destructuring:after" ],
   "blacklist": [ "es6.destructuring" ]
 }
 ```
@@ -35,7 +35,7 @@ Or directly from code:
 ```javascript
 var babel = require("babel-core");
 babel.transform("code", {
-    plugins: ['extensible-destructuring'],
+    plugins: ['extensible-destructuring:after'],
     blacklist: ['es6.destructuring']
 });
 ```
@@ -52,15 +52,15 @@ const {author: {name: {first, last}, birthdate}} = book;
 into:
 
 ```javascript
-let book = {};
+var book = {};
 
 var _book$author = book[Symbol.for("get")] ? book[Symbol.for("get")]("author") : book.author;
 
 var _book$author$name = _book$author[Symbol.for("get")] ? _book$author[Symbol.for("get")]("name") : _book$author.name;
 
-let first = _book$author$name[Symbol.for("get")] ? _book$author$name[Symbol.for("get")]("first") : _book$author$name.first;
-let last = _book$author$name[Symbol.for("get")] ? _book$author$name[Symbol.for("get")]("last") : _book$author$name.last;
-let birthdate = _book$author[Symbol.for("get")] ? _book$author[Symbol.for("get")]("birthdate") : _book$author.birthdate;
+var first = _book$author$name[Symbol.for("get")] ? _book$author$name[Symbol.for("get")]("first") : _book$author$name.first;
+var last = _book$author$name[Symbol.for("get")] ? _book$author$name[Symbol.for("get")]("last") : _book$author$name.last;
+var birthdate = _book$author[Symbol.for("get")] ? _book$author[Symbol.for("get")]("birthdate") : _book$author.birthdate;
 ```
 
 [es-proposals]: https://github.com/vacuumlabs/es-proposals

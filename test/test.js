@@ -1,6 +1,5 @@
 "use strict";
 
-import Plugin from '../src'
 import fs from 'fs'
 import assert from 'assert'
 import { transformFileSync } from 'babel-core'
@@ -8,7 +7,7 @@ import { transformFileSync } from 'babel-core'
 function test(name, dir, externalHelpers) {
 	it(`should compile ${ name }`, () => {
 		const actual = transformFileSync(`./test/fixtures/${ dir }/actual.js`, {
-			plugins: [Plugin],
+			plugins: ['../src:after'],
 			blacklist: ['es6.destructuring'],
 			externalHelpers: externalHelpers
 		}).code;
