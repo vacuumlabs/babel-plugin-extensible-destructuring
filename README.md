@@ -40,6 +40,8 @@ babel.transform("code", {
 });
 ```
 
+Also make sure that your runtime uses babel's [polyfill](http://babeljs.io/docs/usage/polyfill/). 
+
 ## Example
 
 This plugin was created to leverage [Immutable.js](https://facebook.github.io/immutable-js/) data structures while not loosing succint destructuring syntax.
