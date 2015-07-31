@@ -40,7 +40,7 @@ babel.transform("code", {
 });
 ```
 
-Also make sure that your runtime uses babel's [polyfill](http://babeljs.io/docs/usage/polyfill/). 
+> Also make sure that your runtime uses babel's [polyfill](http://babeljs.io/docs/usage/polyfill/).
 
 ## Example
 
