@@ -22,7 +22,9 @@ describe("extensible-destructuring", () => {
 	test("custom object destructuring with string keys", "object-custom", false);
 	test("custom object destructuring with non-string keys", "object-non-string-key", false);
 	test("custom object destructuring of the book example", "book-example", false);
+	test("custom object destructuring with computed key", "object-computed-key", true);
 	test("multiple destructurings", "multiple", false);
 	test("destructuring in for-in", "for-in", true);
 	test("destructuring of parameters", "parameters", true);
+	test("destructuring with assignment expressions", "assignment-expression-pattern", false);
 });

@@ -1,37 +1,40 @@
 "use strict";
 
 function somethingAdvanced(_ref, p2, p3) {
-	var _ref$topLeft = _ref.topLeft;
-	_ref$topLeft = _ref$topLeft === undefined ? {} : _ref$topLeft;
-	var x1 = _ref$topLeft[Symbol.for("get")] ? _ref$topLeft[Symbol.for("get")]("x") : _ref$topLeft.x;
-	var y1 = _ref$topLeft[Symbol.for("get")] ? _ref$topLeft[Symbol.for("get")]("y") : _ref$topLeft.y;
-	var _ref$bottomRight = _ref.bottomRight;
-	_ref$bottomRight = _ref$bottomRight === undefined ? {} : _ref$bottomRight;
-	var x2 = _ref$bottomRight[Symbol.for("get")] ? _ref$bottomRight[Symbol.for("get")]("x") : _ref$bottomRight.x;
-	var y2 = _ref$bottomRight[Symbol.for("get")] ? _ref$bottomRight[Symbol.for("get")]("y") : _ref$bottomRight.y;
+	var _ref2 = _ref[Symbol.for("get")] ? _ref[Symbol.for("get")]("topLeft") : _ref.topLeft;
+
+	_ref2 = _ref2 === undefined ? {} : _ref2;
+	var x1 = _ref2[Symbol.for("get")] ? _ref2[Symbol.for("get")]("x") : _ref2.x;
+	var y1 = _ref2[Symbol.for("get")] ? _ref2[Symbol.for("get")]("y") : _ref2.y;
+
+	var _ref3 = _ref[Symbol.for("get")] ? _ref[Symbol.for("get")]("bottomRight") : _ref.bottomRight;
+
+	_ref3 = _ref3 === undefined ? {} : _ref3;
+	var x2 = _ref3[Symbol.for("get")] ? _ref3[Symbol.for("get")]("x") : _ref3.x;
+	var y2 = _ref3[Symbol.for("get")] ? _ref3[Symbol.for("get")]("y") : _ref3.y;
 }
 
-function unpackObject(_ref2) {
-	var title = _ref2[Symbol.for("get")] ? _ref2[Symbol.for("get")]("title") : _ref2.title;
-	var author = _ref2[Symbol.for("get")] ? _ref2[Symbol.for("get")]("author") : _ref2.author;
+function unpackObject(_ref4) {
+	var title = _ref4[Symbol.for("get")] ? _ref4[Symbol.for("get")]("title") : _ref4.title;
+	var author = _ref4[Symbol.for("get")] ? _ref4[Symbol.for("get")]("author") : _ref4.author;
 
 	return title + " " + author;
 }
 
 console.log(unpackObject({ title: "title", author: "author" }));
 
-var unpackArray = function unpackArray(_ref3, _ref4) {
-	var _ref32 = babelHelpers.slicedToArray(_ref3, 3);
+var unpackArray = function unpackArray(_ref5, _ref6) {
+	var _ref52 = babelHelpers.slicedToArray(_ref5, 3);
 
-	var a = _ref32[0];
-	var b = _ref32[1];
-	var c = _ref32[2];
+	var a = _ref52[0];
+	var b = _ref52[1];
+	var c = _ref52[2];
 
-	var _ref42 = babelHelpers.slicedToArray(_ref4, 3);
+	var _ref62 = babelHelpers.slicedToArray(_ref6, 3);
 
-	var x = _ref42[0];
-	var y = _ref42[1];
-	var z = _ref42[2];
+	var x = _ref62[0];
+	var y = _ref62[1];
+	var z = _ref62[2];
 
 	return a + b + c;
 };

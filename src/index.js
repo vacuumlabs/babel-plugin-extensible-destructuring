@@ -102,6 +102,14 @@ module.exports = function (babel) {
 			// we need to assign the current value of the assignment to avoid evaluating
 			// it more than once
 
+			if (valueRef.object) {
+				var objGetRef = t.memberExpression(valueRef.object, SymbolForGet, /* computed: */ true);
+				valueRef = t.conditionalExpression(
+						objGetRef,
+						t.callExpression(objGetRef, [DestructuringTransformer.symbolForGetArgument(valueRef.property, false)]),
+						valueRef
+				);
+			}
 			var tempValueRef = this.scope.generateUidIdentifierBasedOnNode(valueRef);
 
 			var declar = t.variableDeclaration("var", [
@@ -156,6 +164,18 @@ module.exports = function (babel) {
 			this.nodes.push(this.buildVariableAssignment(spreadProp.argument, value));
 		}
 
+		static symbolForGetArgument(prop, computed) {
+			if (t.isIdentifier(prop)) {
+				if (computed) {
+					return prop;
+				} else {
+					return t.literal(prop.name);
+				}
+			} else {
+				return prop;
+			}
+		}
+
 		pushObjectProperty(prop, propRef) {
 			if (t.isLiteral(prop.key)) prop.computed = true;
 
@@ -165,7 +185,7 @@ module.exports = function (babel) {
 			var objGetRef = t.memberExpression(propRef, SymbolForGet, /* computed: */ true);
 			var fullObjRef = t.conditionalExpression(
 				objGetRef,
-				t.callExpression(objGetRef, [t.isIdentifier(prop.key) ? t.literal(prop.key.name) : prop.key]),
+				t.callExpression(objGetRef, [DestructuringTransformer.symbolForGetArgument(prop.key, prop.computed)]),
 				objRef
 			);
 
@@ -189,13 +209,13 @@ module.exports = function (babel) {
 			// member expression then we need to assign it to a temporary variable so it's
 			// only evaluated once
 
-			if (pattern.properties.length > 1 && t.isMemberExpression(objRef)) {
-				var temp = this.scope.generateUidIdentifierBasedOnNode(objRef, this.file);
+			if (pattern.properties.length > 1 && !this.scope.isStatic(objRef)) {
+				var temp = this.scope.generateUidIdentifierBasedOnNode(objRef);
 
 				var tempObjGetRef = t.memberExpression(objRef.object, SymbolForGet, /* computed: */ true);
 				var tempFullObjRef = t.conditionalExpression(
 					tempObjGetRef,
-					t.callExpression(tempObjGetRef, [t.isIdentifier(objRef.property) ? t.literal(objRef.property.name) : objRef.property]),
+					t.callExpression(tempObjGetRef, [DestructuringTransformer.symbolForGetArgument(objRef.property, false)]),
 					objRef
 				);
 
@@ -213,7 +233,7 @@ module.exports = function (babel) {
 						var objGetRef = t.memberExpression(objRef.object, SymbolForGet, /* computed: */ true);
 						var fullObjRef = t.conditionalExpression(
 							objGetRef,
-							t.callExpression(objGetRef, [t.isIdentifier(objRef.property) ? t.literal(objRef.property.name) : objRef.property]),
+							t.callExpression(objGetRef, [DestructuringTransformer.symbolForGetArgument(objRef.property, false)]),
 							objRef
 						);
 
@@ -238,6 +258,9 @@ module.exports = function (babel) {
 				var elem = pattern.elements[i];
 				// deopt on holes
 				if (!elem) return false;
+
+				// deopt on spread elements
+				if (t.isSpreadElement(elem)) return false;
 
 				// deopt on member expressions as they may be included in the RHS
 				if (t.isMemberExpression(elem)) return false;
