@@ -6,12 +6,15 @@ import { transformFileSync } from 'babel-core'
 
 function test(name, dir, externalHelpers) {
 	it(`should compile ${ name }`, () => {
-		const actual = transformFileSync(`./test/fixtures/${ dir }/actual.js`, {
-			plugins: ['../src:after'],
-			blacklist: ['es6.destructuring'],
-			externalHelpers: externalHelpers
+		var plugins = ['../src'];
+		if (externalHelpers) {
+			plugins.push('external-helpers-2');
+		}
+		let actual = transformFileSync(`./test/fixtures/${ dir }/actual.js`, {
+			presets: ['es2015'],
+			plugins: plugins
 		}).code;
-		const expected = fs.readFileSync(`./test/fixtures/${ dir }/expected.js`, "utf8").toString();
+		let expected = fs.readFileSync(`./test/fixtures/${ dir }/expected.js`, "utf8").toString();
 		assert.equal(actual, expected);
 	});
 }
