@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-extensible-destructuring",
-  "version": "1.0.2",
+  "version": "2.0.0",
   "description": "Babel plugin that enables extensible destructuring as per https://github.com/vacuumlabs/es-proposals",
   "author": "Markéta Lisová <themarketka@gmail.com>",
   "repository": "vacuumlabs/babel-plugin-extensible-destructuring",
