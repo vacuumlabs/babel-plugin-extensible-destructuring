@@ -229,7 +229,6 @@ export default function ({ types: t }) {
 				objRef = temp;
 			}
 
-			//
 
 			for (let i = 0; i < pattern.properties.length; i++) {
 				let prop = pattern.properties[i];
@@ -240,7 +239,7 @@ export default function ({ types: t }) {
 						let objGetRef = t.memberExpression(objRef.object, SymbolForGet, /* computed: */ true);
 						let fullObjRef = t.conditionalExpression(
 								objGetRef,
-								t.callExpression(objGetRef, [DestructuringTransformer.symbolForGetArgument(objRef.property, false)]),
+								t.callExpression(objGetRef, [DestructuringTransformer.symbolForGetArgument(objRef.property, objRef.computed)]),
 								objRef
 						);
 

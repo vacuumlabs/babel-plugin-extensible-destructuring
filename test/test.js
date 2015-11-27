@@ -30,4 +30,5 @@ describe("extensible-destructuring", () => {
 	test("destructuring in for-in", "for-in", true);
 	test("destructuring of parameters", "parameters", true);
 	test("destructuring with assignment expressions", "assignment-expression-pattern", false);
+	test("regression for issue #8", "regression-issue-8", false);
 });
