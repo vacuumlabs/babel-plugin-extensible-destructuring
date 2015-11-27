@@ -10,8 +10,32 @@
 ```sh
 npm install --save-dev babel-plugin-extensible-destructuring
 ```
+use version ^1.x.x for compatibility with Babel 5 and ^2.x.x for compatibility with Babel 6
 
-## Usage
+## Usage (for version 2.x.x and Babel 6)
+
+Add the plugin to your `.babelrc` configuration:
+
+```json
+{
+  "presets": ["es2015"],
+  "plugins": ["extensible-destructuring"]
+}
+```
+
+Or directly from code:
+
+```javascript
+var babel = require("babel-core");
+babel.transform("code", {
+    presets: ['es2015'],
+    plugins: ['extensible-destructuring']
+})
+```
+
+> Also make sure that your runtime uses babel's [polyfill](http://babeljs.io/docs/usage/polyfill/).
+
+## Usage (for version 1.x.x and Babel 5)
 
 The `extensible-destructuring` plugin replaces babel's `es6.destructuring` transformer, so the latter needs to be prevented from running.
 
