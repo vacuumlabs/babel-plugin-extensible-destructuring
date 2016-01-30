@@ -17,7 +17,7 @@
     "clean": "rm -rf lib",
     "build": "babel src --out-dir lib --copy-files",
     "watch": "npm run build -- --watch",
-    "test": "mocha --compilers js:babel-core/register",
+    "test": "mocha --compilers js:babel-core/register test/**",
     "prepublish": "npm run clean && npm run build"
   },
   "dependencies": {

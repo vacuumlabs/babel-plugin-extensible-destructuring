@@ -1,5 +1,56 @@
+/* eslint-disable */
+
+var fs = require('fs')
+let pokus = String(fs.readFileSync('./local_pokus.js')).split('\n')
+
+function printNode(node) {
+  if (!global.writes) {
+    return
+  }
+  _printNode(node, 2, 0)
+}
+
+function print(str) {
+  if (global.writes) {
+    console.log(str)
+  }
+}
+
+function _printNode(node, lvl, indent) {
+  if (lvl === 0) return
+  if (node == null) return
+  if (node.type != null) {
+    let ind = []
+    for (let i = 0; i < indent + 1; i++) {
+      ind.push('  ')
+    }
+    ind = ind.join('')
+    console.log(ind + node.type)
+    if ('loc' in node) {
+      let sl = node.loc.start.line
+      let el = node.loc.end.line
+      if (sl !== el) {throw new Error('sl != el')}
+      let toPrint = []
+      for (let i = 0; i < indent + 1; i++) {
+        toPrint.push('  ')
+      }
+      console.log(ind + '  ' + pokus[sl - 1].substring(node.loc.start.column, node.loc.end.column))
+    }
+    for (let k of Object.keys(node)) {
+      _printNode(node[k], lvl - 1, indent + 1)
+    }
+  }
+}
+
 export default function ({ types: t }) {
 
+  function extensibleGet(obj, prop, def) {
+    let args = [obj, prop]
+    if (def !== undefined) {
+      args.push(def)
+    }
+    return t.callExpression(t.identifier('__extensible_get__'), args)
+  }
 	/**
 	 * Test if a VariableDeclaration's declarations contains any Patterns.
 	 */
@@ -34,11 +85,6 @@ export default function ({ types: t }) {
 			}
 		}
 	};
-
-	const SymbolForGet = t.callExpression(
-			t.identifier("Symbol.for"),
-			[t.stringLiteral("get")]
-	);
 
 	class DestructuringTransformer {
 		constructor(opts) {
@@ -84,7 +130,7 @@ export default function ({ types: t }) {
 			} else if (t.isArrayPattern(id)) {
 				this.pushArrayPattern(id, init);
 			} else if (t.isAssignmentPattern(id)) {
-				this.pushAssignmentPattern(id, init);
+        throw new Error('shouldnt get here, handling of AssignmentPattert is inlined into ObjectPattern')
 			} else {
 				this.nodes.push(this.buildVariableAssignment(id, init));
 			}
@@ -98,62 +144,8 @@ export default function ({ types: t }) {
 			}
 		}
 
-		static symbolForGetArgument(prop, computed) {
-			if (t.isIdentifier(prop)) {
-				if (computed) {
-					return prop;
-				} else {
-					return t.stringLiteral(prop.name);
-				}
-			} else {
-				return prop;
-			}
-		}
-
-		pushAssignmentPattern(pattern, valueRef) {
-			// we need to assign the current value of the assignment to avoid evaluating
-			// it more than once
-
-			if (valueRef.object) {
-				let objGetRef = t.memberExpression(valueRef.object, SymbolForGet, /* computed: */ true);
-				valueRef = t.conditionalExpression(
-						objGetRef,
-						t.callExpression(objGetRef, [DestructuringTransformer.symbolForGetArgument(valueRef.property, false)]),
-						valueRef
-				);
-			}
-
-			let tempValueRef = this.scope.generateUidIdentifierBasedOnNode(valueRef);
-
-			let declar = t.variableDeclaration("var", [
-				t.variableDeclarator(tempValueRef, valueRef)
-			]);
-			declar._blockHoist = this.blockHoist;
-			this.nodes.push(declar);
-
-			//
-
-			let tempConditional = t.conditionalExpression(
-					t.binaryExpression("===", tempValueRef, t.identifier("undefined")),
-					pattern.right,
-					tempValueRef
-			);
-
-			let left = pattern.left;
-			if (t.isPattern(left)) {
-				let tempValueDefault = t.expressionStatement(
-						t.assignmentExpression("=", tempValueRef, tempConditional)
-				);
-				tempValueDefault._blockHoist = this.blockHoist;
-
-				this.nodes.push(tempValueDefault);
-				this.push(left, tempValueRef);
-			} else {
-				this.nodes.push(this.buildVariableAssignment(left, tempConditional));
-			}
-		}
-
 		pushObjectRest(pattern, objRef, spreadProp, spreadPropIndex) {
+      print('pushObjectRest')
 			// get all the keys that appear in this object before the current spread
 
 			let keys = [];
@@ -175,34 +167,41 @@ export default function ({ types: t }) {
 
 			keys = t.arrayExpression(keys);
 
-			//
-
 			let value = t.callExpression(this.file.addHelper("objectWithoutProperties"), [objRef, keys]);
 			this.nodes.push(this.buildVariableAssignment(spreadProp.argument, value));
 		}
 
 		pushObjectProperty(prop, propRef) {
+      print('pushObjectProperty')
 			if (t.isLiteral(prop.key)) prop.computed = true;
 
 			let pattern = prop.value;
-			let objRef  = t.memberExpression(propRef, prop.key, prop.computed);
+      let objRef = extensibleGet(propRef, prop.computed ? prop.key : t.stringLiteral(prop.key.name))
 
 			if (t.isPattern(pattern)) {
-				this.push(pattern, objRef);
+        if (t.isAssignmentPattern(pattern)) {
+          objRef = extensibleGet(propRef, t.stringLiteral(prop.key.name), pattern.right)
+          print('recursive')
+				  this.push(pattern.left, objRef);
+        } else {
+          print('recursive')
+				  this.push(pattern, objRef);
+        }
+
+				////this.nodes.push(this.buildVariableAssignment(pattern, objRef));
+        //print(pattern)
+        //printNode(pattern)
+				//this.push(pattern.left, objRef);
 
 			} else {
-				let objGetRef = t.memberExpression(propRef, SymbolForGet, /* computed: */ true);
-				let fullObjRef = t.conditionalExpression(
-						objGetRef,
-						t.callExpression(objGetRef, [DestructuringTransformer.symbolForGetArgument(prop.key, prop.computed)]),
-						objRef
-				);
-
-				this.nodes.push(this.buildVariableAssignment(pattern, fullObjRef));
+				this.nodes.push(this.buildVariableAssignment(pattern, objRef));
 			}
 		}
 
 		pushObjectPattern(pattern, objRef) {
+      print('pushObjectPattern')
+      printNode(pattern)
+      printNode(objRef)
 			// https://github.com/babel/babel/issues/681
 
 			if (!pattern.properties.length) {
@@ -217,36 +216,17 @@ export default function ({ types: t }) {
 
 			if (pattern.properties.length > 1 && !this.scope.isStatic(objRef)) {
 				let temp = this.scope.generateUidIdentifierBasedOnNode(objRef);
-
-				let tempObjGetRef = t.memberExpression(objRef.object, SymbolForGet, /* computed: */ true);
-				let tempFullObjRef = t.conditionalExpression(
-						tempObjGetRef,
-						t.callExpression(tempObjGetRef, [DestructuringTransformer.symbolForGetArgument(objRef.property, false)]),
-						objRef
-				);
-
+        let tempFullObjRef = objRef
 				this.nodes.push(this.buildVariableDeclaration(temp, tempFullObjRef));
 				objRef = temp;
 			}
-
 
 			for (let i = 0; i < pattern.properties.length; i++) {
 				let prop = pattern.properties[i];
 				if (t.isRestProperty(prop)) {
 					this.pushObjectRest(pattern, objRef, prop, i);
 				} else {
-					if (objRef.object) {
-						let objGetRef = t.memberExpression(objRef.object, SymbolForGet, /* computed: */ true);
-						let fullObjRef = t.conditionalExpression(
-								objGetRef,
-								t.callExpression(objGetRef, [DestructuringTransformer.symbolForGetArgument(objRef.property, objRef.computed)]),
-								objRef
-						);
-
-						this.pushObjectProperty(prop, fullObjRef);
-					} else {
-						this.pushObjectProperty(prop, objRef);
-					}
+					this.pushObjectProperty(prop, objRef);
 				}
 			}
 		}
@@ -292,6 +272,7 @@ export default function ({ types: t }) {
 		}
 
 		pushArrayPattern(pattern, arrayRef) {
+      print('pushArrayPattern')
 			if (!pattern.elements) return;
 
 			// optimise basic array destructuring of an array expression
@@ -377,6 +358,10 @@ export default function ({ types: t }) {
 
 	return {
 		visitor: {
+      Program(path) {
+        console.log(path.node)
+        console.log(path)
+      },
 			ForXStatement(path, file) {
 				let { node, scope } = path;
 				let left = node.left;
