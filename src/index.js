@@ -355,14 +355,30 @@ export default function ({ types: t }) {
 		}
 	}
 
+  let hasDirective = false
+
+  function checkDirective(path) {
+    for (let directive of path.node.directives) {
+      let dirstr = directive.value.value
+      if (dirstr.startsWith('use ')) {
+        let uses = dirstr.substr(4).split(',').map((use) => use.trim())
+        return (uses.indexOf('extensible') !== -1)
+      }
+    }
+    return false
+  }
+
+  function shouldTransform() {
+    return hasDirective
+  }
 
 	return {
 		visitor: {
       Program(path) {
-        console.log(path.node)
-        console.log(path)
+        hasDirective = checkDirective(path)
       },
 			ForXStatement(path, file) {
+        if (!shouldTransform()){ return; }
 				let { node, scope } = path;
 				let left = node.left;
 
@@ -412,6 +428,7 @@ export default function ({ types: t }) {
 			},
 
 			CatchClause({ node, scope }, file) {
+        if (!shouldTransform()){ return; }
 				let pattern = node.param;
 				if (!t.isPattern(pattern)) return;
 
@@ -432,6 +449,7 @@ export default function ({ types: t }) {
 			},
 
 			AssignmentExpression(path, file) {
+        if (!shouldTransform()){ return; }
 				let { node, scope } = path;
 				if (!t.isPattern(node.left)) return;
 
@@ -467,6 +485,7 @@ export default function ({ types: t }) {
 			},
 
 			VariableDeclaration(path, file) {
+        if (!shouldTransform()){ return; }
 				let { node, scope, parent } = path;
 				if (t.isForXStatement(parent)) return;
 				if (!parent || !path.container) return; // i don't know why this is necessary - TODO
