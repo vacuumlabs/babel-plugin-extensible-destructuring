@@ -1,7 +1,5 @@
 import {Iterable, fromJS} from 'immutable'
 import assert from 'assert'
-import {patch} from './extensibleGet'
-
 
 describe('regression', () => {
   beforeEach(() =>{
@@ -14,10 +12,6 @@ describe('regression', () => {
         return d
       }
     }
-  })
-
-  afterEach(() => {
-    patch()
   })
 
   it('issue #8', () => {
