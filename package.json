@@ -21,8 +21,6 @@
     "prepublish": "npm run clean && npm run build"
   },
   "dependencies": {
-    "bluebird": "^3.2.2",
-    "immutable": "^3.7.5"
   },
   "devDependencies": {
     "babel-cli": "^6.4.5",
@@ -32,6 +30,8 @@
     "babel-register": "^6.4.3",
     "babel-runtime": "^6.3.19",
     "file": "^0.2.2",
-    "mocha": "^2.3.4"
+    "mocha": "^2.3.4",
+    "bluebird": "^3.2.2",
+    "immutable": "^3.7.5"
   }
 }
