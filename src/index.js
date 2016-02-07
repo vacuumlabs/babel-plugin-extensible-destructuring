@@ -202,7 +202,6 @@ export default function ({ types: t }) {
       print('pushObjectPattern')
       printNode(pattern)
       printNode(objRef)
-			// https://github.com/babel/babel/issues/681
 
 			if (!pattern.properties.length) {
 				this.nodes.push(t.expressionStatement(
@@ -306,8 +305,6 @@ export default function ({ types: t }) {
 				this.arrays[arrayRef.name] = true;
 				this.nodes.push(this.buildVariableDeclaration(arrayRef, toArray));
 			}
-
-			//
 
 			for (let i = 0; i < pattern.elements.length; i++) {
 				let elem = pattern.elements[i];
