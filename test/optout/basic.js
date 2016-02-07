@@ -1,14 +1,15 @@
 /* eslint-disable no-var */
+'use !extensible'
+
 global.noprint = true
 import assert from 'assert'
 
-global.__extensible_get__ = (o, k, d) => { //eslint-disable-line camelcase
-  return 'eg'
-}
+describe('optout, !extensible', () => {
 
-describe('basics', () => {
-
-  it('', () => {
+  it('works', () => {
+    global.__extensible_get__ = (o, k, d) => { //eslint-disable-line camelcase
+      return 'eg'
+    }
     let {a, b, c} = require('./a')
     assert.equal(a, 'eg')
     assert.equal(b, 'eg')

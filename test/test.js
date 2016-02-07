@@ -1,6 +1,10 @@
+'use !extensible'
+
 import fs from 'fs'
 import assert from 'assert'
-import {transformFileSync} from 'babel-core'
+import * as babel from 'babel-core'
+
+let transformFileSync = babel.transformFileSync
 
 function test(name, dir, externalHelpers) {
   it(`should compile ${ name }`, () => {

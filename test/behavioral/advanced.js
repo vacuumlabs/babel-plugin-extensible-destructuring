@@ -1,13 +1,12 @@
 /* eslint-disable no-var */
 
 import assert from 'assert'
-import {patch, reset, getN} from './extensibleGet'
-patch()
+import {patch, getN} from './extensibleGet'
 
 describe('advanced', () => {
 
   beforeEach(() => {
-    reset()
+    patch()
   })
 
   it('for-of works', () => {

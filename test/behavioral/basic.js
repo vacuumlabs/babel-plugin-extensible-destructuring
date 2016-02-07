@@ -2,14 +2,13 @@
 global.noprint = true
 
 import assert from 'assert'
-import {patch, reset, getN} from './extensibleGet'
+import {patch, getN} from './extensibleGet'
 import {Map, fromJS} from 'immutable'
-patch()
 
 describe('basics', () => {
 
   beforeEach(() => {
-    reset()
+    patch()
   })
 
   it('destructures simple map (1 key)', () => {
