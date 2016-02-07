@@ -17,6 +17,7 @@
     "clean": "rm -rf lib",
     "build": "babel --presets es2015 src --out-dir lib --copy-files",
     "watch": "npm run build -- --watch",
+    "test": "node runtest",
     "prepublish": "npm run clean && npm run build"
   },
   "dependencies": {
