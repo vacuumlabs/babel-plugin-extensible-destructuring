@@ -30,7 +30,7 @@ not to:
 ```json
 {
   "presets": ["es2015"],
-  "plugins": [["extensible-destructuring", {"mode": "optout"}]
+  "plugins": [["extensible-destructuring", {"mode": "optout"}]]
 }
 ```
 
