@@ -1,7 +1,8 @@
 # babel-plugin-extensible-destructuring
 
-> Babel plugin that enables extensible destructuring, inspired by [vacuumlabs/es-proposals][es-proposals].
+Babel plugin that enables extensible destructuring, inspired by [vacuumlabs/es-proposals][es-proposals].
 
+[![Circle CI](https://circleci.com/gh/vacuumlabs/babel-plugin-extensible-destructuring.svg?style=svg)](https://circleci.com/gh/vacuumlabs/babel-plugin-extensible-destructuring)
 [![Join the chat at https://gitter.im/vacuumlabs/babel-destructuring](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/vacuumlabs/babel-destructuring?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 
