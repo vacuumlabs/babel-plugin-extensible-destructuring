@@ -1,7 +1,5 @@
 node_modules
 *.log
 src
-polyfill
-example
-local_*.js
 test
+

@@ -1,33 +1,29 @@
-"use strict";
+'use !extensible'
 
 import fs from 'fs'
 import assert from 'assert'
-import { transformFileSync } from 'babel-core'
+import * as babel from 'babel-core'
+
+let transformFileSync = babel.transformFileSync
 
 function test(name, dir, externalHelpers) {
-	it(`should compile ${ name }`, () => {
-		var plugins = ['../src'];
-		if (externalHelpers) {
-			plugins.push('external-helpers-2');
-		}
-		let actual = transformFileSync(`./test/fixtures/${ dir }/actual.js`, {
-			presets: ['es2015'],
-			plugins: plugins
-		}).code;
-		let expected = fs.readFileSync(`./test/fixtures/${ dir }/expected.js`, "utf8").toString();
-		assert.equal(actual, expected);
-	});
+  it(`should compile ${ name }`, () => {
+    let plugins = ['../src']
+    if (externalHelpers) {
+      plugins.push('external-helpers-2')
+    }
+    let actual = transformFileSync(`./test/fixtures/${ dir }/actual.js`, {
+      presets: ['es2015'],
+      plugins: plugins
+    }).code
+    let expected = fs.readFileSync(`./test/fixtures/${ dir }/expected.js`, 'utf8').toString()
+    // get rid of newline at the end of the file
+    assert.equal(actual, expected.trim())
+  })
 }
 
-describe("extensible-destructuring", () => {
+describe('extensible-destructuring', () => {
 
-	test("basic object destructuring", "object-basic", false);
-	test("custom object destructuring with string keys", "object-custom", false);
-	test("custom object destructuring with non-string keys", "object-non-string-key", false);
-	test("custom object destructuring of the book example", "book-example", false);
-	test("custom object destructuring with computed key", "object-computed-key", true);
-	test("multiple destructurings", "multiple", false);
-	test("destructuring in for-in", "for-in", true);
-	test("destructuring of parameters", "parameters", true);
-	test("destructuring with assignment expressions", "assignment-expression-pattern", false);
-});
+  test('destructuring in for-in', 'for-in', true)
+
+})

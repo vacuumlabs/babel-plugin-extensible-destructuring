@@ -1,0 +1,18 @@
+{
+  "name": "extensible-polyfill",
+  "version": "1.0.1",
+  "description": "Simple polyfill defining global.__extensible_get__ used by extensible-destructuring Babel plugin",
+  "author": "Tomas Kulich <tomas.kulich@gmail.com>",
+  "main": "lib/polyfill.js",
+  "scripts": {
+    "clean": "rm -rf lib",
+    "build": "rm -rf lib; babel --presets es2015 src --out-dir lib --copy-files",
+    "watch": "npm run build -- --watch",
+    "prepublish": "npm run clean && npm run build"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "immutable": "^3.7.6"
+  }
+}
