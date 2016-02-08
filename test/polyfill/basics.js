@@ -1,4 +1,4 @@
-import patch from '../../polyfill/polyfill'
+import patch from '../../polyfill'
 import assert from 'assert'
 import {fromJS} from 'immutable'
 

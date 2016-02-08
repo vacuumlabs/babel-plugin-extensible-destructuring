@@ -80,6 +80,9 @@ let patches = {
 }
 
 export default function patch(what) {
+  if (what == null) {
+    what = 'default'
+  }
   if (what in patches) {
     if (typeof global === 'object') {
       global.__extensible_get__ = patches[what]
@@ -88,6 +91,6 @@ export default function patch(what) {
       window.__extensible_get__ = patches[what]
     }
   } else {
-    throw new Error(`patch argument must be one of ${Object.keys(patches)}`)
+    throw new Error(`patch argument must be one of ${Object.keys(patches)}, got ${what}`)
   }
 }
