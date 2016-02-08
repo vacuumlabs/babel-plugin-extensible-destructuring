@@ -12,7 +12,7 @@ npm install --save-dev babel-plugin-extensible-destructuring
 ```
 use version ^1.x.x for compatibility with Babel 5 and ^2.x.x for compatibility with Babel 6
 
-## Usage (for version 2.x.x and Babel 6)
+## Usage (for version 3.x.x and Babel 6)
 
 Add the plugin to your `.babelrc` configuration:
 
@@ -20,6 +20,16 @@ Add the plugin to your `.babelrc` configuration:
 {
   "presets": ["es2015"],
   "plugins": ["extensible-destructuring"]
+}
+```
+
+Running in `optout` mode, which means that the plugin transforms all your sources unless you tell it
+not to:
+
+```json
+{
+  "presets": ["es2015"],
+  "plugins": [["extensible-destructuring", {"mode": "optout"}]
 }
 ```
 
@@ -33,32 +43,9 @@ babel.transform("code", {
 })
 ```
 
-> Also make sure that your runtime uses babel's [polyfill](http://babeljs.io/docs/usage/polyfill/).
-
-## Usage (for version 1.x.x and Babel 5)
-
-Add the plugin to your `.babelrc` configuration:
-
-```json
-{
-  "presets": ["es2015"],
-  "plugins": ["extensible-destructuring"]
-}
-```
-
-Or directly from code:
-
-```javascript
-var babel = require("babel-core");
-babel.transform("code", {
-  presets: ["es2015"],
-  plugins: ["extensible-destructuring"]
-});
-```
-
 ## What it does
 
-The plugin gives you more explicit controll of what exactly happens in the process of destructuring.
+The plugin gives you more explicit control of what exactly happens in the process of destructuring.
 The plugin transforms all destructuring assignments such as:
 ```javascript
 var {a = 10} = o
@@ -126,10 +113,10 @@ const {a, b, c = null} = map;
 is perfectly OK.
 
 ## optin / optout
-Plugin operates in two modes: in `optin` (default) means, that the destructuring assignment are
-transformed only if "use extensible" directive is present at the beginning of the file. Mode
-`optout` means that destructuring assignments in all filed are transformed unless you use "use !extensible"
-directive at the beggining of the file. You can change (default) `optin` in your .babelrc (note that
+Plugin operates in two modes: in `optin` (default) the destructuring assignments are
+transformed only if "use extensible" directive is present at the beginning of the file. OTOH,
+in `optout` mode the destructuring assignments are transformed unless you use "use !extensible"
+directive at the beginning of the file. You can change (default) `optin` in your .babelrc (note that
 `plugins` now becomes nested array)
 
 ```javascript
@@ -140,7 +127,8 @@ directive at the beggining of the file. You can change (default) `optin` in your
 ```
 
 This machinery is necessary for bigger projects to be able to move safe-mode gradually: You can use
-'safe' destructuring, but `optin` only those files, that are already written with this in mind.
+'safe' destructuring, but `optin` only those files, that are already written with
+no-undefined-policy in mind.
 
 ## Under The Hood
 
