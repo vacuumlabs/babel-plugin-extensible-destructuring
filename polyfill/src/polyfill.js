@@ -79,7 +79,7 @@ let patches = {
   }
 }
 
-export default function patch(what) {
+function patch(what) {
   if (what == null) {
     what = 'default'
   }
@@ -94,3 +94,6 @@ export default function patch(what) {
     throw new Error(`patch argument must be one of ${Object.keys(patches)}, got ${what}`)
   }
 }
+
+module.exports.patch = patch
+export default patch
