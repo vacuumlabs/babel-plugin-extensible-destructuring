@@ -73,7 +73,7 @@ First, we'll import
 
 ```javascript
 // main.js, first file loaded
-require(extensible-polyfill).patch('immutable')
+require('extensible-polyfill').patch('immutable')
 ```
 
 And then, in any file with "use extensible" directive we can use:
@@ -89,7 +89,7 @@ const {author: {name: {first, last}, birthdate}} = map;
 
 ```javascript
 // main.js, first file loaded
-require(extensible-polyfill).patch('safe')
+require('extensible-polyfill').patch('safe')
 ```
 
 Now, if I write:
