@@ -60,7 +60,7 @@ Now, it's up to you to write the global (god help us!) function `__extensible_ge
 want to write such of your own, you can install `extensible-polyfill`. This very simple standalone
 `npm` package comes with three implementations of `__extensible_get__`, that you can use OOTB:
 
-- `defaut`: standard ES6 compatible: no magic here
+- `default`: standard ES6 compatible: no magic here
 - `immutable`: the one that you can use with [Immutable.js](https://facebook.github.io/immutable-js/) to destructure its Maps and Lists
 - `safe`: prevent returning values from being `undefined`. Also includes features of `immutable`
     
