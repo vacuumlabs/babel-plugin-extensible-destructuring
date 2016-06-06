@@ -8,7 +8,7 @@ let transformFileSync = babel.transformFileSync
 
 function test(name, dir, externalHelpers) {
   it(`should compile ${ name }`, () => {
-    let plugins = ['../src']
+    let plugins = [['./lib', {mode: 'optout', package_name: 'extensible-runtime', impl: 'test'}]]
     if (externalHelpers) {
       plugins.push('external-helpers-2')
     }
@@ -16,6 +16,8 @@ function test(name, dir, externalHelpers) {
       presets: ['es2015'],
       plugins: plugins
     }).code
+    // create 'expected' fixture from the actual result
+    // fs.writeFileSync(`./test/fixtures/${ dir }/expected.js`, actual)
     let expected = fs.readFileSync(`./test/fixtures/${ dir }/expected.js`, 'utf8').toString()
     // get rid of newline at the end of the file
     assert.equal(actual, expected.trim())

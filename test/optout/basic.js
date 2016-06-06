@@ -4,12 +4,14 @@
 global.noprint = true
 import assert from 'assert'
 
-describe('optout, !extensible', () => {
+const runtime = require('extensible-runtime')
+var __extensible_get__ = (o, k, d) => { //eslint-disable-line
+  return 'eg'
+}
+runtime.test = __extensible_get__
 
+describe('optout, !extensible', () => {
   it('works', () => {
-    global.__extensible_get__ = (o, k, d) => { //eslint-disable-line camelcase
-      return 'eg'
-    }
     let {a, b, c} = require('./a')
     assert.equal(a, 'eg')
     assert.equal(b, 'eg')

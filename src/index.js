@@ -1,3 +1,6 @@
+let sourceCode
+let writes
+
 function printNode(node) {
   if (!writes) {
     return
@@ -10,9 +13,6 @@ function print(str) {
     console.log(str)
   }
 }
-
-let sourceCode
-let writes
 
 function _printNode(node, lvl, indent) {
   if (lvl === 0) return
@@ -40,7 +40,29 @@ function _printNode(node, lvl, indent) {
   }
 }
 
+
 export default function({types: t}) {
+
+  function generateRequire(pkgName, methodName)  {
+    return t.variableDeclaration(
+      'var',
+      [
+        t.variableDeclarator(
+          t.identifier('__extensible_get__'),
+          t.memberExpression(
+            t.callExpression(
+              t.identifier('require'),
+              [
+                t.stringLiteral(pkgName)
+              ]
+            ),
+            t.identifier(methodName),
+            false
+          )
+        )
+      ]
+    )
+  };
 
   function extensibleGet(obj, prop, def) {
     let args = [obj, prop]
@@ -368,7 +390,6 @@ export default function({types: t}) {
     visitor: {
       Program(path, state) {
         sourceCode = path.scope.hub.file.code.split('\n') // debug purposes
-
         let directive = getDirective(path)
         if (state.opts == null) {
           state.opts = {}
@@ -381,7 +402,19 @@ export default function({types: t}) {
         } else if (state.opts.mode === 'optout') {
           shouldTransform = (directive !== -1)
         }
+        if (state.opts.package_name == null) {
+          state.opts.package_name = 'extensible-runtime'
+        }
+        if (state.opts.impl == null) {
+          state.opts.impl = 'safe'
+        }
         writes = (state.opts.verbose === true)
+        if (shouldTransform) {
+          path.node.body = [
+            generateRequire(state.opts['package_name'], state.opts['impl']),
+            ...path.node.body
+          ]
+        }
         //console.log(path.scope.hub.file.opts.filename)
         //console.log(shouldTransform)
       },

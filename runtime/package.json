@@ -1,9 +1,9 @@
 {
-  "name": "extensible-polyfill",
-  "version": "1.0.1",
-  "description": "Simple polyfill defining global.__extensible_get__ used by extensible-destructuring Babel plugin",
+  "name": "extensible-runtime",
+  "version": "4.0.1",
+  "description": "Multiple definitions of __extensible_get__ used by extensible-destructuring Babel plugin",
   "author": "Tomas Kulich <tomas.kulich@gmail.com>",
-  "main": "lib/polyfill.js",
+  "main": "lib/runtime.js",
   "scripts": {
     "clean": "rm -rf lib",
     "build": "rm -rf lib; babel --presets es2015 src --out-dir lib --copy-files",

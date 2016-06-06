@@ -1,19 +1,17 @@
 import {Iterable, fromJS} from 'immutable'
 import assert from 'assert'
 
-describe('regression', () => {
-  beforeEach(() =>{
-    global.__extensible_get__ = function(o, k, d) { //eslint-disable-line camelcase
-      if (Iterable.isIterable(o)) {
-        return o.get(k, d)
-      } else if (k in o) {
-        return o[k]
-      } else {
-        return d
-      }
-    }
-  })
+var __extensible_get__ = function(o, k, d) { //eslint-disable-line
+  if (Iterable.isIterable(o)) {
+    return o.get(k, d)
+  } else if (k in o) {
+    return o[k]
+  } else {
+    return d
+  }
+}
 
+describe('regression', () => {
   it('issue #8', () => {
     let data = fromJS({
       key1: {key2: 'hello world'}

@@ -2,13 +2,15 @@
 global.noprint = true
 
 import assert from 'assert'
-import {patch, getN} from './extensibleGet'
+import {resetN, getN, extensibleGet} from './extensibleGet'
 import {Map, fromJS} from 'immutable'
+
+var __extensible_get__ = extensibleGet // eslint-disable-line
 
 describe('basics', () => {
 
   beforeEach(() => {
-    patch()
+    resetN()
   })
 
   it('destructures simple map (1 key)', () => {
@@ -108,8 +110,4 @@ describe('basics', () => {
     assert.equal(a, 'a')
     assert.equal(b, 'b')
   })
-
 })
-
-
-
