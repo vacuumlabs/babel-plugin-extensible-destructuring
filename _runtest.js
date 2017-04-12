@@ -7,7 +7,7 @@ import Mocha from 'mocha'
 require('babel-register')({
   'babelrc': false,
   'presets': ['es2015'],
-  'plugins': [['./lib', {mode: 'optout', impl: 'test'}]],
+  'plugins': [['extensible-destructuring', {mode: 'optout', impl: 'test'}]],
 })
 
 function addFiles(mocha, root) {
@@ -43,7 +43,7 @@ let failures2 = failures1.then(() => {
   require('babel-register')({
     'babelrc': false,
     'presets': ['es2015'],
-    'plugins': [['./lib', {mode: 'optin', impl: 'test'}]],
+    'plugins': [['extensible-destructuring', {mode: 'optin', impl: 'test'}]],
   })
 
   addFiles(mocha, './test/optin')

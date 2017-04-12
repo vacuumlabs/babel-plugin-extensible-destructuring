@@ -8,7 +8,7 @@ let transformFileSync = babel.transformFileSync
 
 function test(name, dir, externalHelpers) {
   it(`should compile ${ name }`, () => {
-    let plugins = [['./lib', {mode: 'optout', package_name: 'extensible-runtime', impl: 'test'}]]
+    let plugins = [['extensible-destructuring', {mode: 'optout', package_name: 'extensible-runtime', impl: 'test'}]]
     if (externalHelpers) {
       plugins.push('external-helpers-2')
     }

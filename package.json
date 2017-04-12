@@ -21,8 +21,9 @@
     "clean": "rm -rf lib",
     "build": "rm -rf lib; babel --presets es2015 src --out-dir lib --copy-files",
     "watch": "npm run build -- --watch",
-    "test": "node runtest",
-    "prepublish": "npm run clean && npm run build"
+    "test": "npm run build && npm run mock && node runtest",
+    "prepublish": "npm run clean && npm run build",
+    "mock": "rm -rf ./node_modules/babel-plugin-extensible-destructuring && ln -s ../lib ./node_modules/babel-plugin-extensible-destructuring"
   },
   "dependencies": {
   },
