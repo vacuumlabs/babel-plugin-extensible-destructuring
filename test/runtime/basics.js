@@ -1,8 +1,7 @@
 import assert from 'assert'
 import {fromJS} from 'immutable'
 
-const runtime = require('../../runtime')
-//import patch from '../../runtime'
+const runtime = require('extensible-runtime')
 
 describe('runtime basic behavior', () => {
 
