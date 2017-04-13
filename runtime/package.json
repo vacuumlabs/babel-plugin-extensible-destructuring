@@ -10,9 +10,11 @@
     "watch": "npm run build -- --watch",
     "prepublish": "npm run clean && npm run build"
   },
-  "author": "",
   "license": "ISC",
   "dependencies": {
     "immutable": "^3.7.6"
+  },
+  "devDependencies": {
+    "babel-cli": "6.24.1"
   }
 }

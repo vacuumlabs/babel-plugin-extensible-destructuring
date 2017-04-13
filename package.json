@@ -38,6 +38,6 @@
     "mocha": "^2.3.4",
     "bluebird": "^3.2.2",
     "immutable": "^3.7.5",
-    "extensible-runtime": "^4.0.0"
+    "extensible-runtime": "file:runtime"
   }
 }
