@@ -26,6 +26,9 @@ function type(o) {
 }
 
 export function normal(o, k, d) {
+  if (o === null || o === undefined) {
+    throw new Error(`cannot resolve property ${safeString(k)} of ${o}`)
+  }
   if (typeof k !== 'string') {
     throw new Error(`cannot resolve non-string property ${type(k)} ${safeString(k)}`)
   }
@@ -33,8 +36,10 @@ export function normal(o, k, d) {
   return value !== undefined ? value : d
 };
 
-
 export function immutable(o, k, d) {
+  if (o === null || o === undefined) {
+    throw new Error(`cannot resolve property ${safeString(k)} of ${o}`)
+  }
   if (Iterable.isIterable(o)) {
     return o.get(k, d)
   }
@@ -46,6 +51,9 @@ export function immutable(o, k, d) {
 };
 
 export function safe(o, k, d) {
+  if (o === null || o === undefined) {
+    throw new Error(`cannot resolve property ${safeString(k)} of ${o}`)
+  }
   if (Iterable.isIterable(o)) {
     let res = o.get(k, d)
     if (res === undefined) {
