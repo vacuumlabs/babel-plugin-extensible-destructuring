@@ -18,9 +18,10 @@
   ],
   "license": "BSD-2-Clause",
   "scripts": {
-    "clean": "rm -rf lib",
-    "build": "npm run clean && babel --presets es2015 src --out-dir lib --copy-files",
-    "watch": "npm run build -- --watch",
+    "clean": "rm -rf lib; rm -rf node_modules/babel-plugin-extensible-destructuring; rm -rf node_modules/extensible-runtime",
+    "build-runtime": "cd runtime && npm run build",
+    "build-this": "npm run clean && babel --presets es2015 src --out-dir lib --copy-files",
+    "build": "npm run build-runtime && npm run build-this",
     "test": "npm run build && npm install && node runtest",
     "prepublishOnly": "npm run test"
   },
