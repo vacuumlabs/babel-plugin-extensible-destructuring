@@ -26,54 +26,50 @@ function type(o) {
 }
 
 export function normal(o, k, d) {
+  if (o === null || o === undefined) {
+    throw new Error(`cannot resolve property ${safeString(k)} of ${o}`)
+  }
   if (typeof k !== 'string') {
     throw new Error(`cannot resolve non-string property ${type(k)} ${safeString(k)}`)
   }
-  if (typeof o !== 'object') {
-    throw new Error(`cannot resolve property ${k} in object of type ${typeof o} (${safeString(o)})`)
-  }
-  if (k in o) {
-    return o[k]
-  }
-  return d
+  const value = o[k]
+  return value !== undefined ? value : d
 };
 
-
 export function immutable(o, k, d) {
+  if (o === null || o === undefined) {
+    throw new Error(`cannot resolve property ${safeString(k)} of ${o}`)
+  }
   if (Iterable.isIterable(o)) {
     return o.get(k, d)
   }
   if (typeof k !== 'string') {
     throw new Error(`cannot resolve non-string property ${type(k)} ${safeString(k)}`)
   }
-  if (typeof o !== 'object') {
-    throw new Error(`cannot resolve property ${k} in object of type ${typeof o} (${safeString(o)})`)
-  }
-  if (k in o) {
-    return o[k]
-  }
-  return d
+  const value = o[k]
+  return value !== undefined ? value : d
 };
 
 export function safe(o, k, d) {
+  if (o === null || o === undefined) {
+    throw new Error(`cannot resolve property ${safeString(k)} of ${o}`)
+  }
   if (Iterable.isIterable(o)) {
     let res = o.get(k, d)
     if (res === undefined) {
-      throw new Error(`Key Error: object with keys ${stringKeys(o)} does not contain property ${k}`)
+      throw new Error(`Key Error: object of type ${typeof o} with keys ${stringKeys(o)} does not contain property ${k}`)
     }
     return o.get(k, d)
   }
   if (typeof k !== 'string') {
     throw new Error(`cannot resolve non-string property ${type(k)} ${safeString(k)}`)
   }
-  if (typeof o !== 'object') {
-    throw new Error(`cannot resolve property ${k} in object of type ${typeof o} (${safeString(o)})`)
-  }
-  if (k in o) {
-    return o[k]
+  const value = o[k]
+  if (value !== undefined) {
+    return value
   }
   if (d === undefined) {
-    throw new Error(`Key Error: object with keys ${stringKeys(o)} does not contain property ${k}`)
+    throw new Error(`Key Error: object of type ${typeof o} with keys ${stringKeys(o)} does not contain property ${k}`)
   }
   return d
 }
