@@ -19,11 +19,10 @@
   "license": "BSD-2-Clause",
   "scripts": {
     "clean": "rm -rf lib",
-    "build": "rm -rf lib; babel --presets es2015 src --out-dir lib --copy-files",
+    "build": "npm run clean && babel --presets es2015 src --out-dir lib --copy-files",
     "watch": "npm run build -- --watch",
-    "test": "npm run build && npm run mock && node runtest",
-    "prepublish": "npm run clean && npm run build",
-    "mock": "rm -rf ./node_modules/babel-plugin-extensible-destructuring && ln -s ../lib ./node_modules/babel-plugin-extensible-destructuring"
+    "test": "npm run build && npm install && node runtest",
+    "prepublishOnly": "npm run test"
   },
   "dependencies": {
   },
@@ -38,6 +37,7 @@
     "mocha": "^2.3.4",
     "bluebird": "^3.2.2",
     "immutable": "^3.7.5",
-    "extensible-runtime": "^4.0.0"
+    "babel-plugin-extensible-destructuring": "file:.",
+    "extensible-runtime": "file:./runtime"
   }
 }
