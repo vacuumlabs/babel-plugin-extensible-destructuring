@@ -43,17 +43,6 @@ function _printNode(node, lvl, indent) {
 
 export default function({types: t}) {
 
-  /* 
-    Babel 7 renamed RestProperty to RestElement.
-    Check which one is available, then make a copy of it for future references.
-  */
-  let isRestElement
-  if (t.isRestElement) {
-    isRestElement = t.isRestElement
-  } else {
-    isRestElement = t.isRestProperty
-  }
-
   function generateRequire(pkgName, methodName)  {
     return t.variableDeclaration(
       'var',
@@ -101,7 +90,7 @@ export default function({types: t}) {
 
   function hasRest(pattern) {
     for (let elem of pattern.elements) {
-      if (isRestElement(elem)) {
+      if (t.isRestElement(elem)) {
         return true
       }
     }
@@ -189,7 +178,7 @@ export default function({types: t}) {
         if (i >= spreadPropIndex) break
 
         // ignore other spread properties
-        if (isRestElement(prop)) continue
+        if (t.isRestProperty(prop)) continue
 
         let key = prop.key
         if (t.isIdentifier(key) && !prop.computed) key = t.stringLiteral(prop.key.name)
@@ -248,7 +237,7 @@ export default function({types: t}) {
 
       for (let i = 0; i < pattern.properties.length; i++) {
         let prop = pattern.properties[i]
-        if (isRestElement(prop)) {
+        if (t.isRestProperty(prop)) {
           this.pushObjectRest(pattern, objRef, prop, i)
         } else {
           this.pushObjectProperty(prop, objRef)
@@ -288,7 +277,7 @@ export default function({types: t}) {
     pushUnpackedArrayPattern(pattern, arr) {
       for (let i = 0; i < pattern.elements.length; i++) {
         let elem = pattern.elements[i]
-        if (isRestElement(elem)) {
+        if (t.isRestElement(elem)) {
           this.push(elem.argument, t.arrayExpression(arr.elements.slice(i)))
         } else {
           this.push(elem, arr.elements[i])
@@ -340,7 +329,7 @@ export default function({types: t}) {
 
         let elemRef
 
-        if (isRestElement(elem)) {
+        if (t.isRestElement(elem)) {
           elemRef = this.toArray(arrayRef)
 
           if (i > 0) {
