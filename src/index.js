@@ -41,17 +41,18 @@ function _printNode(node, lvl, indent) {
 }
 
 
-export default function({types: t}) {
+export default function({types: t, version}) {
+  const majorVersion = Number(version.split('.')[0]);
 
   /*
     Babel 7 renamed RestProperty to RestElement.
-    Check which one is available, then make a copy of it for future references.
-    Prefer the older version when both exist for babel 6 compatibility
+    Check the Babel version number supplied to the plugin
+    and return the result of the preferred function call.
   */
-  const isRestElement = (tx, node, opts) => 
-    tx.isRestElement && !tx.isRestProperty ? 
-        tx.isRestElement(node, opts) :
-        tx.isRestProperty(node, opts);
+  const isRestElement = (tx, node, opts) =>
+    majorVersion >= 7
+      ? tx.isRestElement(node, opts)
+      : tx.isRestProperty(node, opts);
 
   function generateRequire(pkgName, methodName)  {
     return t.variableDeclaration(
