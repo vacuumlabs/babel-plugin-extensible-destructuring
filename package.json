@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-extensible-destructuring",
-  "version": "4.2.2",
+  "version": "4.2.3",
   "description": "Babel plugin that enables extensible destructuring as per https://github.com/vacuumlabs/es-proposals",
   "author": "Tomas Kulich <tomas.kulich@gmail.com>",
   "contributors": [
@@ -25,8 +25,7 @@
     "test": "npm run build && npm install && node runtest",
     "prepublishOnly": "npm run test"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "babel-cli": "^6.4.5",
     "babel-core": "^6.4.5",
