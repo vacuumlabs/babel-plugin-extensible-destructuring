@@ -1,8 +1,8 @@
 /* eslint-disable */
 
-require('babel-register')({
+require('@babel/register')({
   'babelrc': false,
-  'presets': ['es2015'],
+  'presets': ['@babel/preset-env'],
 })
 
 require('./_runtest')

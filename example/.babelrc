@@ -1,4 +1,19 @@
 {
-  "presets": ["es2015"],
-  "plugins": [["extensible-destructuring", {"mode": "optout", "impl": "safe"}]]
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "modules": false
+      }
+    ]
+  ],
+  "plugins": [
+    [
+      "babel-plugin-extensible-destructuring",
+      {
+        "mode": "optout",
+        "impl": "safe"
+      }
+    ]
+  ]
 }

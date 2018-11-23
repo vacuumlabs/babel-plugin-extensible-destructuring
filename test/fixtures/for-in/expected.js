@@ -3,10 +3,9 @@
 var __extensible_get__ = require("extensible-runtime").test;
 
 for (var _ref in obj) {
-	var _ref2 = babelHelpers.slicedToArray(_ref, 2);
+  var _ref2 = babelHelpers.slicedToArray(_ref, 2);
 
-	var name = _ref2[0];
-	var value = _ref2[1];
-
-	print("Name: " + name + ", Value: " + value);
+  var name = _ref2[0];
+  var value = _ref2[1];
+  print("Name: " + name + ", Value: " + value);
 }
