@@ -4,9 +4,12 @@
   "description": "Multiple definitions of __extensible_get__ used by extensible-destructuring Babel plugin",
   "author": "Tomas Kulich <tomas.kulich@gmail.com>",
   "main": "lib/runtime.js",
+  "module": "es/runtime.js",
   "scripts": {
-    "clean": "rm -rf lib",
-    "build": "rm -rf lib; babel --presets es2015 src --out-dir lib --copy-files",
+    "clean": "rimraf lib && rimraf es",
+    "build": "npm run clean && npm run build:cjs && npm run build:es",
+    "build:cjs": "cross-env BABEL_ENV=cjs babel src --out-dir lib --copy-files",
+    "build:es": "cross-env BABEL_ENV=es babel src --out-dir es --copy-files",
     "watch": "npm run build -- --watch",
     "prepublish": "npm run clean && npm run build"
   },
@@ -15,6 +18,10 @@
     "immutable": "^3.7.6"
   },
   "devDependencies": {
-    "babel-cli": "^6.4.5"
+    "@babel/cli": "^7.1.5",
+    "@babel/core": "^7.1.6",
+    "@babel/preset-env": "^7.1.6",
+    "cross-env": "^5.2.0",
+    "rimraf": "^2.6.2"
   }
 }
