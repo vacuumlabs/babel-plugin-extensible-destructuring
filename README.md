@@ -34,6 +34,17 @@ babel.transform("code", {
 })
 ```
 
+### Usage for babel 7
+
+Add the plugin to your `.babelrc` configuration using the full name:
+
+```json
+{
+  "presets": ["@babel/preset-env"],
+  "plugins": ["babel-plugin-extensible-destructuring"]
+}
+```
+
 ## What it does
 
 The plugin gives you more explicit control of what exactly happens in the process of destructuring.
@@ -54,7 +65,7 @@ the section Plugin Options below).
 - `normal`: standard ES6 compatible: no magic here
 - `immutable`: the one that you can use with [Immutable.js](https://facebook.github.io/immutable-js/) to destructure its Maps and Lists
 - `safe`: prevent returning values from being `undefined`. Also includes features of `immutable`
-    
+
 Option `safe` is the default one. Typically, there is no reason to use this plugin with `normal` option.
 
 Check out the `example` folder for a working example; this is a standalone `npm` package with all the
@@ -70,9 +81,9 @@ In case you don't know, babel allows to specify options for each plugin. The syn
 }
 ```
 
-Semantics of these options is: 
+Semantics of these options is:
 
-### mode 
+### mode
 either 'optin' or 'optout'. In `optin` (default) mode, the destructuring
 assignments are transformed only if "use extensible" directive is present at the beginning of the
 file. OTOH, in `optout` mode the destructuring assignments are transformed unless you use "use
@@ -139,7 +150,7 @@ is perfectly OK.
 ## Differences from version 3
 
 - no need to patch your code at the entry-point, no need to define global `__extensible_get__`. We see
-  this as a bad practice and this was the most relevant reason for doing version 4. 
+  this as a bad practice and this was the most relevant reason for doing version 4.
 
 - option `default` was renamed to `normal` (default is sort-of reserved keyword when dealing with ES6
 import/export)

@@ -4,10 +4,10 @@ import file from 'file'
 import Mocha from 'mocha'
 //import fs from 'fs'
 
-require('babel-register')({
+require('@babel/register')({
   'babelrc': false,
-  'presets': ['es2015'],
-  'plugins': [['extensible-destructuring', {mode: 'optout', impl: 'test'}]],
+  'presets': ['@babel/preset-env'],
+  'plugins': [['babel-plugin-extensible-destructuring', {mode: 'optout', impl: 'test'}]],
 })
 
 function addFiles(mocha, root) {
@@ -40,10 +40,10 @@ let failures1 = mocharun(mocha)
 let failures2 = failures1.then(() => {
   mocha = new Mocha()
 
-  require('babel-register')({
+  require('@babel/register')({
     'babelrc': false,
-    'presets': ['es2015'],
-    'plugins': [['extensible-destructuring', {mode: 'optin', impl: 'test'}]],
+    'presets': ['@babel/preset-env'],
+    'plugins': [['babel-plugin-extensible-destructuring', {mode: 'optin', impl: 'test'}]],
   })
 
   addFiles(mocha, './test/optin')

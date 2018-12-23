@@ -13,31 +13,37 @@
     "destructuring"
   ],
   "main": "lib/index.js",
+  "module": "es/index.js",
   "files": [
-    "lib"
+    "lib",
+    "es"
   ],
   "license": "BSD-2-Clause",
   "scripts": {
     "clean": "rm -rf lib; rm -rf node_modules/babel-plugin-extensible-destructuring; rm -rf node_modules/extensible-runtime",
     "build-runtime": "cd runtime && npm run build",
-    "build-this": "npm run clean && babel --presets es2015 src --out-dir lib --copy-files",
+    "build-this:cjs": "cross-env BABEL_ENV=cjs babel src --out-dir lib --copy-files",
+    "build-this:es": "cross-env BABEL_ENV=es babel src --out-dir es --copy-files",
+    "build-this": "npm run clean && npm run build-this:cjs && npm run build-this:es",
     "build": "npm run build-runtime && npm run build-this",
     "test": "npm run build && npm install && node runtest",
     "prepublishOnly": "npm run test"
   },
   "dependencies": {},
   "devDependencies": {
-    "babel-cli": "^6.4.5",
-    "babel-core": "^6.4.5",
-    "babel-plugin-external-helpers-2": "^6.3.13",
-    "babel-preset-es2015": "^6.3.13",
-    "babel-register": "^6.4.3",
-    "babel-runtime": "^6.3.19",
-    "file": "^0.2.2",
-    "mocha": "^2.3.4",
-    "bluebird": "^3.2.2",
-    "immutable": "^3.7.5",
+    "@babel/cli": "^7.1.5",
+    "@babel/core": "^7.1.6",
+    "@babel/plugin-external-helpers": "^7.0.0",
+    "@babel/preset-env": "^7.1.6",
+    "@babel/register": "^7.0.0",
+    "@babel/runtime": "^7.1.5",
     "babel-plugin-extensible-destructuring": "file:.",
-    "extensible-runtime": "file:./runtime"
+    "bluebird": "^3.2.2",
+    "cross-env": "^5.2.0",
+    "extensible-runtime": "file:./runtime",
+    "file": "^0.2.2",
+    "immutable": "^3.7.5",
+    "mocha": "^2.3.4",
+    "rimraf": "^2.6.2"
   }
 }

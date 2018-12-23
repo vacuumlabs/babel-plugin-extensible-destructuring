@@ -2,18 +2,18 @@
 
 import fs from 'fs'
 import assert from 'assert'
-import * as babel from 'babel-core'
+import * as babel from '@babel/core'
 
 let transformFileSync = babel.transformFileSync
 
 function test(name, dir, externalHelpers) {
   it(`should compile ${ name }`, () => {
-    let plugins = [['extensible-destructuring', {mode: 'optout', package_name: 'extensible-runtime', impl: 'test'}]]
+    let plugins = [['babel-plugin-extensible-destructuring', {mode: 'optout', package_name: 'extensible-runtime', impl: 'test'}]]
     if (externalHelpers) {
-      plugins.push('external-helpers-2')
+      plugins.push('@babel/plugin-external-helpers')
     }
     let actual = transformFileSync(`./test/fixtures/${ dir }/actual.js`, {
-      presets: ['es2015'],
+      presets: ['@babel/preset-env'],
       plugins: plugins
     }).code
     // create 'expected' fixture from the actual result
