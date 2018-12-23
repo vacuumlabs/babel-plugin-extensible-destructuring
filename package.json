@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-extensible-destructuring",
-  "version": "4.2.3",
+  "version": "4.3.0",
   "description": "Babel plugin that enables extensible destructuring as per https://github.com/vacuumlabs/es-proposals",
   "author": "Tomas Kulich <tomas.kulich@gmail.com>",
   "contributors": [
@@ -43,7 +43,7 @@
     "extensible-runtime": "file:./runtime",
     "file": "^0.2.2",
     "immutable": "^3.7.5",
-    "mocha": "^2.3.4",
+    "mocha": "^5.2.0",
     "rimraf": "^2.6.2"
   }
 }
