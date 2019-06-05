@@ -1,8 +1,8 @@
-import {Iterable, fromJS} from 'immutable'
+import {isCollection, fromJS} from 'immutable'
 import assert from 'assert'
 
 var __extensible_get__ = function(o, k, d) { //eslint-disable-line
-  if (Iterable.isIterable(o)) {
+  if (isCollection(o)) {
     return o.get(k, d)
   } else if (k in o) {
     return o[k]

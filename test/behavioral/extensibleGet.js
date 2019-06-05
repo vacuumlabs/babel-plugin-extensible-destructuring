@@ -1,4 +1,4 @@
-import {Iterable} from 'immutable'
+import {isCollection} from 'immutable'
 
 let nCalls = 0
 
@@ -12,7 +12,7 @@ export function resetN() {
 
 export const extensibleGet = (o, k, d) => {
   nCalls += 1
-  if (Iterable.isIterable(o)) {
+  if (isCollection(o)) {
     return o.get(k, d)
   } else if (k in o) {
     return o[k]

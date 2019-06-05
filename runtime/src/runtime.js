@@ -1,6 +1,6 @@
 /* eslint-disable camelcase*/
 
-import {Iterable, List} from 'immutable'
+import {isCollection, List} from 'immutable'
 
 function safeString(o) {
   let stro = 'String representation of object cannot be computed'
@@ -12,7 +12,7 @@ function safeString(o) {
 
 function stringKeys(obj) {
   let ks
-  if (Iterable.isIterable(obj)) {
+  if (isCollection(obj)) {
     ks = List(obj.keys()).toJS()
   } else {
     ks = Object.keys(obj)
@@ -34,13 +34,13 @@ export function normal(o, k, d) {
   }
   const value = o[k]
   return value !== undefined ? value : d
-};
+}
 
 export function immutable(o, k, d) {
   if (o === null || o === undefined) {
     throw new Error(`cannot resolve property ${safeString(k)} of ${o}`)
   }
-  if (Iterable.isIterable(o)) {
+  if (isCollection(o)) {
     return o.get(k, d)
   }
   if (typeof k !== 'string') {
@@ -48,13 +48,13 @@ export function immutable(o, k, d) {
   }
   const value = o[k]
   return value !== undefined ? value : d
-};
+}
 
 export function safe(o, k, d) {
   if (o === null || o === undefined) {
     throw new Error(`cannot resolve property ${safeString(k)} of ${o}`)
   }
-  if (Iterable.isIterable(o)) {
+  if (isCollection(o)) {
     let res = o.get(k, d)
     if (res === undefined) {
       throw new Error(`Key Error: object of type ${typeof o} with keys ${stringKeys(o)} does not contain property ${k}`)

@@ -15,7 +15,7 @@
   },
   "license": "ISC",
   "dependencies": {
-    "immutable": "^3.7.6"
+    "immutable": "4.0.0-rc.12"
   },
   "devDependencies": {
     "@babel/cli": "^7.1.5",

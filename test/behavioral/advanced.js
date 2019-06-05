@@ -6,7 +6,6 @@ import {resetN, getN, extensibleGet} from './extensibleGet'
 var __extensible_get__ = extensibleGet // eslint-disable-line
 
 describe('advanced', () => {
-
   beforeEach(() => {
     resetN()
   })
@@ -26,7 +25,7 @@ describe('advanced', () => {
   it('for-of with nested maps works', () => {
     let aa = 0
     let cc = 0
-    for (let {a, b: {c}} of [{a:1, b: {c: 2}}, {a:3, b: {c: 4}}]) {
+    for (let {a, b: {c}} of [{a: 1, b: {c: 2}}, {a: 3, b: {c: 4}}]) {
       aa += a
       cc += c
     }
@@ -47,7 +46,4 @@ describe('advanced', () => {
     assert.equal(res[4], 'default5')
     assert(getN(), 3)
   })
-
 })
-
-
