@@ -39,10 +39,11 @@
     "@babel/runtime": "^7.1.5",
     "babel-plugin-extensible-destructuring": "file:.",
     "bluebird": "^3.2.2",
+    "commander": "^2.20.0",
     "cross-env": "^5.2.0",
     "extensible-runtime": "file:./runtime",
     "file": "^0.2.2",
-    "immutable": "^3.7.5",
+    "immutable": "4.0.0-rc.12",
     "mocha": "^5.2.0",
     "rimraf": "^2.6.2"
   }
