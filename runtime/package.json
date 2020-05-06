@@ -1,6 +1,6 @@
 {
   "name": "extensible-runtime",
-  "version": "4.1.0",
+  "version": "4.1.1",
   "description": "Multiple definitions of __extensible_get__ used by extensible-destructuring Babel plugin",
   "author": "Tomas Kulich <tomas.kulich@gmail.com>",
   "main": "lib/runtime.js",
@@ -18,10 +18,10 @@
     "immutable": "4.0.0-rc.12"
   },
   "devDependencies": {
-    "@babel/cli": "^7.5.5",
-    "@babel/core": "^7.5.5",
-    "@babel/preset-env": "^7.5.5",
-    "cross-env": "^5.2.0",
-    "rimraf": "^2.6.3"
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.6",
+    "@babel/preset-env": "^7.9.6",
+    "cross-env": "^7.0.2",
+    "rimraf": "^3.0.2"
   }
 }
